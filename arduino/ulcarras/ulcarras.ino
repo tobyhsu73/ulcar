@@ -9,6 +9,7 @@
 #define TRIGGER_PIN 11
 #define PWM_OUTPUT_PIN 10
 LiquidCrystal_I2C lcd(0x27,16,2);
+int method;
 int f1;
 int f2;
 byte hdr2, data_h2, data_l2, chksum2;
@@ -409,38 +410,53 @@ else if(rfastracei >=1650 and rslowracei >=1650){
 
 void loop() {
 if(Serial.available()){
+   lcd.clear();
+
+method=Serial.read();
+if (method =='h'){
+  }
+else if(method=='u'){
   lcd.clear();
 f1=Serial.read();
 if(f1=='s'){
+  m1=LOW;
+  m2=LOW;
+  m3=LOW;
   f2=Serial.read();
   if (f2=='l'){
       lcd.setCursor(0, 0);
       lcd.print("left");
+      left();
     }
     else if(f2=='r'){
+      right();
       lcd.setCursor(0, 0);
       lcd.print("right");}}
 else if(f1=='f'){
+  forward();
   lcd.setCursor(0, 0);
-   lcd.print("foword");} 
+   lcd.print("foward");} 
 else if(f1=='m'){
+  m1=LOW;
+  m2=LOW;
+  m3=HIGH;
   f2=Serial.read();
   if(f2=='r'){
+    right2();
    lcd.setCursor(0, 0);
    lcd.print("right2"); }
    else if(f2=='f'){
+    right2();
     lcd.setCursor(0, 0);
    lcd.print("right2");}
    else if(f2=='l'){
+    left2();
     lcd.setCursor(0, 0);
     lcd.print("left2");}}
 else{
+  stop1();
       lcd.setCursor(0, 0);
-    lcd.print("stoppppp");}
-  
-controlrace();
-
+    lcd.print("stoppppp");
+    }
 delay(10);
-}
-
-}
+}}}
