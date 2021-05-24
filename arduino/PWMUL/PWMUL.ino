@@ -11,18 +11,18 @@
  * 
  */
 
-#define TRIGGER_PIN 22
-#define PWM_OUTPUT_PIN 24
-#define TRIGGER_PIN1 30
-#define PWM_OUTPUT_PIN1 32
-#define TRIGGER_PIN2 28
-#define PWM_OUTPUT_PIN2 26
-#define TRIGGER_PIN3 25
-#define PWM_OUTPUT_PIN3 23
-#define TRIGGER_PIN4 29
-#define PWM_OUTPUT_PIN4 27
-#define TRIGGER_PIN5 31
-#define PWM_OUTPUT_PIN5 33
+#define TRIGGER_PIN 34
+#define PWM_OUTPUT_PIN 36
+#define TRIGGER_PIN1 44
+#define PWM_OUTPUT_PIN1 45
+#define TRIGGER_PIN2 40
+#define PWM_OUTPUT_PIN2 38
+#define TRIGGER_PIN3 37
+#define PWM_OUTPUT_PIN3 35
+#define TRIGGER_PIN4 41
+#define PWM_OUTPUT_PIN4 39
+#define TRIGGER_PIN5 43
+#define PWM_OUTPUT_PIN5 42
 long duration;
 int distance;
 long duration1;
@@ -35,6 +35,13 @@ int distance4;
 long duration4;
 int distance5;
 long duration5;
+
+int rforward = 23;
+int rleft = 25;
+int rleft2 = 22;
+int rlefttop = 24;
+int rfastrace =26;
+int rslowrace = 27;
 void setup()
 {
   Serial.begin(57600);
@@ -50,7 +57,13 @@ void setup()
   pinMode(TRIGGER_PIN4, OUTPUT);
   pinMode(PWM_OUTPUT_PIN4, INPUT);
   pinMode(TRIGGER_PIN5, OUTPUT);
-  pinMode(PWM_OUTPUT_PIN5, INPUT);  
+  pinMode(PWM_OUTPUT_PIN5, INPUT);
+pinMode(22,INPUT);
+pinMode(23,INPUT);
+pinMode(24,INPUT);
+pinMode(25,INPUT);
+pinMode(26,INPUT);
+pinMode(27,INPUT);  
 }
 
 void loop()
@@ -179,18 +192,60 @@ void loop()
     Serial.print("00");}
   else if(distance5<100){
     Serial.print(0);} 
-  Serial.println(distance5);
+  Serial.print(distance5);
   
   delay(5);
-  // Read the signal from the sensor: a HIGH pulse whose
-  // duration is the time (in microseconds) from the sending
-  // of the ping to the reception of its echo off of an object.
-  // If no object detected, fixed pulse width of 35ms is sent
-  // by the sensor.
+int rleft2i=pulseIn(rleft2,HIGH,60000);
+int rforwardi=pulseIn(rforward,HIGH,60000);
+int rlefttopi=pulseIn(rlefttop,HIGH,60000);
+int rlefti=pulseIn(rleft,HIGH,60000);
+int rfastracei=pulseIn(rfastrace,HIGH,60000);
+int rslowracei=pulseIn(rslowrace,HIGH,60000);
+if(rslowracei <=1350){
+  Serial.print('h');
 
- 
-  // Convert the pulse width duration into a distance
+  if(rfastracei <=1350){
+    Serial.print('s');
+    }
+  else if(1450<= rfastracei and rfastracei<=1550){
+    Serial.print('m');}
+  else if(rfastracei >=1650){
+    Serial.print('f');}
 
-  
 
+    
+  if(rlefti<=1250 and rforwardi<=1250){
+    Serial.println("lf");}
+  else if(rlefti >= 1750 and rforwardi<=1250){
+    Serial.println("rf");}
+  else if(rlefti <=1250 and rforwardi >=1750){
+    Serial.println("lb");}
+  else if(rlefti>= 1750 and rforwardi >=1750){
+    Serial.println("rb");}
+  else if(rlefttopi <=1200 and rleft2i<=1350){
+    Serial.println("ld");}
+  else if(rlefttopi <=1200 and rleft2i>=1650){
+    Serial.println("rd");}
+  else if(rlefttopi>=1700 and rleft2i<=1350){
+    Serial.println("lt");}
+  else if(rlefttopi>=1700 and rleft2i>=1650){
+    Serial.println("rt");} 
+  else if(rforwardi<=1250){
+    Serial.println("ff");}
+  else if(rforwardi>=1650){
+    Serial.println("bb");}
+  else if(rlefti<=1350){
+    Serial.println("ll");}
+  else if(rlefti>=1650){
+    Serial.println("rr");}
+  else if(rleft2i<=1350){
+    Serial.println("lt");}
+  else if(rleft2i>=1650){
+    Serial.println("rt");}
+  else{
+    Serial.println("st");}
+   }
+
+else if(rslowracei>=1650){
+  Serial.println('u');}
 }
