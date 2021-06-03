@@ -89,7 +89,7 @@ void loop()
   else if(distance<100){
     Serial.print(0);}
   Serial.print(distance);
-  delay(5);
+
   
   digitalWrite(TRIGGER_PIN1, LOW);
   delayMicroseconds(5);
@@ -110,7 +110,7 @@ void loop()
     Serial.print(0);}  
   Serial.print(distance1);
   
-  delay(5);
+
 
    digitalWrite(TRIGGER_PIN2, LOW);
   delayMicroseconds(5);
@@ -125,13 +125,13 @@ void loop()
   if(distance2<0){
     distance2=0;
     }
-  else if (distance2<10){
+  if (distance2<10){
     Serial.print("00");}
   else if(distance2<100){
     Serial.print(0);} 
   Serial.print(distance2);
   
-  delay(5); 
+
 
   digitalWrite(TRIGGER_PIN3, LOW);
   delayMicroseconds(5);
@@ -146,13 +146,13 @@ void loop()
   if(distance3<0){
     distance3=0;
     }
-  else if (distance3<10){
+  if (distance3<10){
     Serial.print("00");}
   else if(distance3<100){
     Serial.print(0);} 
   Serial.print(distance3);
   
-  delay(5);
+
 
   digitalWrite(TRIGGER_PIN4, LOW);
   delayMicroseconds(5);
@@ -167,13 +167,13 @@ void loop()
   if(distance4<0){
     distance4=0;
     }
-  else if (distance4<10){
+   if (distance4<10){
     Serial.print("00");}
   else if(distance4<100){
     Serial.print(0);} 
   Serial.print(distance4);
   
-  delay(5);
+
 
   digitalWrite(TRIGGER_PIN5, LOW);
   delayMicroseconds(5);
@@ -188,29 +188,31 @@ void loop()
   if(distance5<0){
     distance5=0;
     }
-  else if (distance5<10){
+   if (distance5<10){
     Serial.print("00");}
   else if(distance5<100){
     Serial.print(0);} 
   Serial.print(distance5);
   
-  delay(5);
+
 int rleft2i=pulseIn(rleft2,HIGH,60000);
 int rforwardi=pulseIn(rforward,HIGH,60000);
 int rlefttopi=pulseIn(rlefttop,HIGH,60000);
 int rlefti=pulseIn(rleft,HIGH,60000);
 int rfastracei=pulseIn(rfastrace,HIGH,60000);
 int rslowracei=pulseIn(rslowrace,HIGH,60000);
+
+
 if(rslowracei <=1350){
   Serial.print('h');
-
+  
   if(rfastracei <=1350){
-    Serial.print('s');
+    Serial.print('m');
     }
   else if(1450<= rfastracei and rfastracei<=1550){
     Serial.print('m');}
   else if(rfastracei >=1650){
-    Serial.print('f');}
+    Serial.print('s');}
 
 
     
@@ -232,20 +234,28 @@ if(rslowracei <=1350){
     Serial.println("rt");} 
   else if(rforwardi<=1250){
     Serial.println("ff");}
-  else if(rforwardi>=1650){
+  else if(rforwardi>=   1650){
     Serial.println("bb");}
-  else if(rlefti<=1350){
-    Serial.println("ll");}
-  else if(rlefti>=1650){
-    Serial.println("rr");}
   else if(rleft2i<=1350){
-    Serial.println("lt");}
+    Serial.println("ll");}
   else if(rleft2i>=1650){
-    Serial.println("rt");}
+    Serial.println("rr");}
+
+  else if(rlefti<=1250){
+    Serial.print("lc");}
+  else if(rlefti>=1750){
+    Serial.print("rc");}
   else{
     Serial.println("st");}
    }
 
 else if(rslowracei>=1650){
-  Serial.println('u');}
+  Serial.println('u');
+    if(rfastracei <=1350){
+    Serial.print('m');
+    }
+  else if(1450<= rfastracei and rfastracei<=1550){
+    Serial.print('m');}
+  else if(rfastracei >=1650){
+    Serial.print('s');}}
 }
