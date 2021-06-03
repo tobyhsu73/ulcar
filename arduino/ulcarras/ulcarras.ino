@@ -37,7 +37,7 @@ int rfastracei;
 int rslowracei;
 int num;
 int m = 0;
-
+int race;
 
 void setup() {
 
@@ -188,7 +188,7 @@ digitalWrite(37,m3);
 digitalWrite(35,HIGH);
 digitalWrite(33,HIGH);
 digitalWrite(31,HIGH);}
-void right2(){
+void left2(){
 digitalWrite(53,m1);
 digitalWrite(51,m2);
 digitalWrite(49,m3);
@@ -213,7 +213,7 @@ digitalWrite(37,m3);
 digitalWrite(35,HIGH);
 digitalWrite(33,HIGH);
 digitalWrite(31,HIGH);}
-void left2(){
+void right2(){
    digitalWrite(53,m1);
 digitalWrite(51,m2);
 digitalWrite(49,m3);
@@ -374,89 +374,180 @@ rfastracei=pulseIn(rfastrace,HIGH,60000);
 rslowracei=pulseIn(rslowrace,HIGH,60000);
 }
 void controlrace(){
-if (rfastracei <=1350 and rslowracei <=1350){
+if (race=='s' ){
   m=0;
   m1=LOW;
   m2=LOW;
   m3=LOW;
   }
-else if(rfastracei <=1350 and rslowracei >=1650){
-  m=1;
-m1=HIGH;
-m2=LOW;
-m3=LOW;
-}
-else if(1450<= rfastracei <=1550 and rslowracei <=1350){
+
+else if(race=='m' ){
   m=2;
   m1=LOW;
   m2=HIGH;
   m3=LOW;}
-else if(1450<= rfastracei <=1550 and rslowracei >=1650){
-  m=3;
-  m1=LOW;
-  m2=LOW;
-  m3=HIGH;}
-else if(rfastracei >=1650 and rslowracei <=1350){
-  m=4;
-  m1=HIGH;
-  m2=LOW;
-  m3=HIGH;}
-else if(rfastracei >=1650 and rslowracei >=1650){
+
+
+else if(race=='f' ){
   m=5;
   m1=LOW;
   m2=HIGH;
   m3=HIGH;}
-}
+
+else if(race=='h'){
+  m1=HIGH;
+  m2=LOW;
+  m3=HIGH;}}
 
 void loop() {
 if(Serial.available()){
-   lcd.clear();
-
-method=Serial.read();
-if (method =='h'){
-  }
-else if(method=='u'){
   lcd.clear();
-f1=Serial.read();
-if(f1=='s'){
-  m1=LOW;
-  m2=LOW;
-  m3=LOW;
-  f2=Serial.read();
-  if (f2=='l'){
+  race=Serial.read();
+  controlrace();
+  lcd.clear();
+  f1=Serial.read();
+  if (f1=='f'){
+    forward();}
+  else if(f1=='b'){
+    back();}
+  else if(f1=='l'){
+    
+  
+    f2=Serial.read();
+    if (f2=='l'){
       lcd.setCursor(0, 0);
       lcd.print("left");
-      left();
-    }
-    else if(f2=='r'){
-      right();
+      left2();
+     }
+     else if(f2=='c'){
+      left();}
+    else if(f2=='f'){
+      digitalWrite(53,HIGH);
+    digitalWrite(51,HIGH);
+    digitalWrite(49,HIGH);
+    digitalWrite(47,HIGH);
+    digitalWrite(45,HIGH);
+    digitalWrite(43,HIGH);
+    digitalWrite(40,HIGH);
+    digitalWrite(38,HIGH);
+    digitalWrite(36,HIGH);
+    digitalWrite(34,HIGH);
+    digitalWrite(32,HIGH);
+    digitalWrite(30,HIGH);
+    digitalWrite(52,m1);
+    digitalWrite(50,m2);
+    digitalWrite(48,m3);
+    digitalWrite(46,HIGH);
+    digitalWrite(44,HIGH);
+    digitalWrite(42,LOW);
+    digitalWrite(41,m1);
+    digitalWrite(39,m2);
+    digitalWrite(37,m3);
+    digitalWrite(35,HIGH);
+    digitalWrite(33,HIGH);
+    digitalWrite(31,LOW);
+      
       lcd.setCursor(0, 0);
-      lcd.print("right");}}
-else if(f1=='f'){
-  forward();
-  lcd.setCursor(0, 0);
-   lcd.print("foward");} 
-else if(f1=='m'){
-  m1=LOW;
-  m2=LOW;
-  m3=HIGH;
+      lcd.print("lf");}
+    else if(f2=='b'){
+    
+      digitalWrite(53,m1);
+      digitalWrite(51,m2);
+      digitalWrite(49,m3);
+      digitalWrite(47,HIGH);
+      digitalWrite(45,HIGH);
+      digitalWrite(43,LOW);
+      digitalWrite(40,m1);
+      digitalWrite(38,m2);
+      digitalWrite(36,m3);
+      digitalWrite(34,HIGH);
+      digitalWrite(32,HIGH);
+      digitalWrite(30,LOW);
+      digitalWrite(52,HIGH);
+      digitalWrite(50,HIGH);
+      digitalWrite(48,HIGH);
+      digitalWrite(46,HIGH);
+      digitalWrite(44,HIGH);
+      digitalWrite(42,HIGH);
+      digitalWrite(41,HIGH);
+      digitalWrite(39,HIGH);
+      digitalWrite(37,HIGH);
+      digitalWrite(35,HIGH);
+      digitalWrite(33,HIGH);
+      digitalWrite(31,HIGH);
+      lcd.setCursor(0, 0);
+      lcd.print("lb");} 
+    else if(f2=='t'){
+    lefttop();
+    }
+    else if(f2=='d'){
+      leftdown();}}
+  else if(f1=='r'){
   f2=Serial.read();
-  if(f2=='r'){
-    right2();
-   lcd.setCursor(0, 0);
-   lcd.print("right2"); }
-   else if(f2=='f'){
-    right2();
-    lcd.setCursor(0, 0);
-   lcd.print("right2");}
-   else if(f2=='l'){
-    left2();
-    lcd.setCursor(0, 0);
-    lcd.print("left2");}}
-else{
-  stop1();
-      lcd.setCursor(0, 0);
-    lcd.print("stoppppp");
+  if(f2=='f'){
+      digitalWrite(53,m1);
+      digitalWrite(51,m2);
+      digitalWrite(49,m3);
+      digitalWrite(47,HIGH);
+      digitalWrite(45,HIGH);
+      digitalWrite(43,HIGH);
+      digitalWrite(40,m1);
+      digitalWrite(38,m2);
+      digitalWrite(36,m3);
+      digitalWrite(34,HIGH);
+      digitalWrite(32,HIGH);
+      digitalWrite(30,HIGH);
+      digitalWrite(52,HIGH);
+      digitalWrite(50,HIGH);
+      digitalWrite(48,HIGH);
+      digitalWrite(46,HIGH);
+      digitalWrite(44,HIGH);
+      digitalWrite(42,LOW);
+      digitalWrite(41,HIGH);
+      digitalWrite(39,HIGH);
+      digitalWrite(37,HIGH);
+      digitalWrite(35,HIGH);
+      digitalWrite(33,HIGH);
+      digitalWrite(31,LOW);
     }
-delay(10);
-}}}
+  else if(f2=='b'){
+      digitalWrite(53,m1);
+      digitalWrite(51,m2);
+      digitalWrite(49,m3);
+      digitalWrite(47,HIGH);
+      digitalWrite(45,HIGH);
+      digitalWrite(43,LOW);
+      digitalWrite(40,m1);
+      digitalWrite(38,m2);
+      digitalWrite(36,m3);
+      digitalWrite(34,HIGH);
+      digitalWrite(32,HIGH);
+      digitalWrite(30,LOW);
+      digitalWrite(52,HIGH);
+      digitalWrite(50,HIGH);
+      digitalWrite(48,HIGH);
+      digitalWrite(46,HIGH);
+      digitalWrite(44,HIGH);
+      digitalWrite(42,HIGH);
+      digitalWrite(41,HIGH);
+      digitalWrite(39,HIGH);
+      digitalWrite(37,HIGH);
+      digitalWrite(35,HIGH);
+      digitalWrite(33,HIGH);
+      digitalWrite(31,HIGH);}
+  else if(f2=='c'){
+    right();}
+  else if(f2=='d'){
+    rightdown();} 
+  else if(f2=='t'){
+    righttop();}
+  else if(f2=='r'){
+    right2();}
+} 
+else if(f1=='s'){
+  stop1();}   
+      
+      
+}}
+  
+  
