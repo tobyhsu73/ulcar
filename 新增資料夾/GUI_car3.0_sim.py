@@ -16,8 +16,8 @@ import numpy as np
 import give_data as sort_data
 
 S_cale =100
-Title_1 = "GUI v.0.2a"  #視窗標題
-Title_2 = "驅離雞隻機器人 v. 0.2Beta測試版"
+Title_1 = "UlcarGui"  #視窗標題
+Title_2 = "避障車介面"
 
 
 def dir(d):    #判斷車輪轉向
@@ -38,15 +38,15 @@ def deg_(xy):    #繪布座標轉換
     return [x,y]
 
 def motion(win):
+        
     #win = tk.Tk()
     
     #====================視窗====================
     win.title(Title_1)  #視窗標題
     #win.geometry('1920x1080')    #視窗初始解析度
-    #========================================
-    
-    
+    #========================================    
     #====================數值建立====================
+    
     data=sort_data.getdata()  #讀取
         #環境
     Tem = tk.DoubleVar()  #建立tk數值儲存物件
@@ -97,7 +97,8 @@ def motion(win):
     dirB1 = tk.StringVar()
     dirA2 = tk.StringVar()
     dirB2 = tk.StringVar()
-        #Anchor
+#Anchor
+    
     Ax1 = tk.StringVar()  #x座標
     Ax2 = tk.StringVar()
     Ax3 = tk.StringVar()
@@ -114,16 +115,20 @@ def motion(win):
     Ad2 = tk.StringVar()
     Ad3 = tk.StringVar()
     Ad4 = tk.StringVar()
-        #超音波
+    
+#超音波
+    
     FL = tk.StringVar()  #前偏左
     FR = tk.StringVar()
     LF = tk.StringVar()
     RF = tk.StringVar()
+    
     #========================================
     
     
     #====================數值更新====================
         #環境
+
     try:    
         Tem.set('{:6.1f}'.format(data['Tem']))  #幫tk數值儲存物件賦值
         Hum.set('{:6.1f}'.format(data['Hum']))
@@ -175,6 +180,7 @@ def motion(win):
     dirA2.set(dirL)
     dirB2.set(dirR)
         #Anchor
+    
     Ax1.set(data['Ax'][0])
     Ax2.set(data['Ax'][1])
     Ax3.set(data['Ax'][2])
@@ -191,12 +197,14 @@ def motion(win):
     Ad2.set(data['ADist'][1])
     Ad3.set(data['ADist'][2])
     Ad4.set(data['ADist'][3])
+    
         #超音波
     FL.set(data['ultrasound'][2])
     FR.set(data['ultrasound'][1])
     LF.set(data['ultrasound'][3])
     RF.set(data['ultrasound'][0])
     #========================================
+     
     
     
       #字體設定
@@ -213,10 +221,31 @@ def motion(win):
     #frame = tk.Frame(width=800, height=50, bg="#C0C0C0", colormap="new",bd=1,relief=tk.SUNKEN)
     #frame.pack()
     #win.label_1=frame.label(100, 50, text="text")
+    cvs = tk.Canvas(win, width=800, height=520, bg='white')  #建立畫布(在1080P螢幕上測量)
+    cvs.pack(side='right',fill="both",expand="yes")
     
+    #cvs.create_oval(10,10,30,30, fill='red',width=1,outline='red')  #创建一个圆
+    #==============================
+
+
+    #===============畫布比例及座標設定===============
+    # 我們建置的場地為8mx4m。畫布canvas的尺寸為600*600 pixels
+    # 若加上預留上下左右的畫布邊緣以及保持尺寸的比例尺，我們可以用的範圍大約可以是300*450
+    dx=10
+    dy=10
+
+    #  anchor layout in canvas, unit: pixel
+    #    W=500  # width of the anchor plane
+    #    H=750  # height of the anchor plane
+
+    scale=S_cale/1 # 比例尺，or 450/9, scale from physical space to canvas pixel
+    
+    # coordinate transformation between Map and Canvas
+    X0=400   # 笛卡爾座標原點x相對於畫布的原點
+    Y0=450 
     #====================第一橫欄====================
     LF0 = tk.LabelFrame(win, width=100, height=100, text="環境感測器", font=dfont)
-    w=8  #格子寬度
+    w=10  #格子寬度
     #第一排
         #溫度Tem
     Tem_T = tk.Label(LF0, text="溫度:",font=dfont2,  width=w, pady=0, padx=0, bg='#C0C0C0')
@@ -256,7 +285,6 @@ def motion(win):
         #打包以上並顯示
     LF0.pack(fill="x", expand="yes")
     #========================================
-    
     
     #====================第二橫欄====================
     LF2 = tk.LabelFrame(win, width=100, height=100, text="馬達控制參數", font=dfont)
@@ -311,6 +339,7 @@ def motion(win):
     overA1_V = tk.Label(LF2, textvariable=over1, font=dfont2,  width=w, pady=0, padx=0, bg='white')
     overA1_V.grid(row=1, column=6,columnspan=1,sticky='w')
     #B1
+    
     spB1_V = tk.Label(LF2, textvariable=spR, font=dfont2,  width=w, pady=0, padx=0, bg='white')
     spB1_V.grid(row=1, column=8,columnspan=1,sticky='w')
     TfB1_V = tk.Label(LF2, textvariable=TfB1, font=dfont2,  width=w, pady=0, padx=0, bg='white')
@@ -323,7 +352,9 @@ def motion(win):
     dirB1_V.grid(row=1, column=12,columnspan=1,sticky='w')
     overB1_V = tk.Label(LF2, textvariable=over1, font=dfont2,  width=w, pady=0, padx=0, bg='white')
     overB1_V.grid(row=1, column=13,columnspan=1,sticky='w')
+    
     #A2
+    
     spA2_V = tk.Label(LF2, textvariable=spL, font=dfont2,  width=w, pady=0, padx=0, bg='white')
     spA2_V.grid(row=2, column=1,columnspan=1,sticky='w')
     TfA2_V = tk.Label(LF2, textvariable=TfA2, font=dfont2,  width=w, pady=0, padx=0, bg='white')
@@ -336,7 +367,9 @@ def motion(win):
     dirA2_V.grid(row=2, column=5,columnspan=1,sticky='w')
     overA2_V = tk.Label(LF2, textvariable=over1, font=dfont2,  width=w, pady=0, padx=0, bg='white')
     overA2_V.grid(row=2, column=6,columnspan=1,sticky='w')
+    
     #B2
+    
     spB2_V = tk.Label(LF2, textvariable=spR, font=dfont2,  width=w, pady=0, padx=0, bg='white')
     spB2_V.grid(row=2, column=8,columnspan=1,sticky='w')
     TfB2_V = tk.Label(LF2, textvariable=TfB2, font=dfont2,  width=w, pady=0, padx=0, bg='white')
@@ -351,6 +384,7 @@ def motion(win):
     overB2_V.grid(row=2, column=13,columnspan=1,sticky='w')
         #打包以上並顯示
     LF2.pack(fill="x", expand="yes")
+    
     #========================================
     
     
@@ -363,10 +397,12 @@ def motion(win):
     x_deg_T.grid(row=0, column=2, columnspan=1, sticky="W")
     x_deg_V = tk.Label(LF3, textvariable=x_deg, font=dfont2,  width=w, pady=0, padx=2, bg='white')
     x_deg_V.grid(row=0, column=3,columnspan=1,sticky="W")
+    
     y_deg_T = tk.Label(LF3, text="Y座標:",font=dfont2,  width=w, pady=0, padx=0, bg='#C0C0C0')
     y_deg_T.grid(row=0, column=4, columnspan=1, sticky="W")
     y_deg_V = tk.Label(LF3, textvariable=y_deg, font=dfont2,  width=w, pady=0, padx=2, bg='white')
     y_deg_V.grid(row=0, column=5,columnspan=1,sticky="W")
+    
     z_deg_T = tk.Label(LF3, text="Z座標:",font=dfont2,  width=w, pady=0, padx=0, bg='#C0C0C0')
     z_deg_T.grid(row=0, column=6, columnspan=1, sticky="W")
     z_deg_V = tk.Label(LF3, textvariable=z_deg, font=dfont2,  width=w, pady=0, padx=2, bg='white')
@@ -506,32 +542,12 @@ def motion(win):
     #開始繪圖
     
     #===============建立畫布===============
-    cvs = tk.Canvas(win, width=1950, height=520, bg='white')  #建立畫布(在1080P螢幕上測量)
-    cvs.pack(fill="both",expand="yes")
-    #cvs.create_oval(10,10,30,30, fill='red',width=1,outline='red')  #创建一个圆
-    #==============================
 
-
-    #===============畫布比例及座標設定===============
-    # 我們建置的場地為8mx4m。畫布canvas的尺寸為600*600 pixels
-    # 若加上預留上下左右的畫布邊緣以及保持尺寸的比例尺，我們可以用的範圍大約可以是300*450
-    dx=10
-    dy=10
-
-    #  anchor layout in canvas, unit: pixel
-    #    W=500  # width of the anchor plane
-    #    H=750  # height of the anchor plane
-
-    scale=S_cale/1 # 比例尺，or 450/9, scale from physical space to canvas pixel
-    
-    # coordinate transformation between Map and Canvas
-    X0=400   # 笛卡爾座標原點x相對於畫布的原點
-    Y0=450    
     #==============================
     
 
-    
 #------------------------------------------------------------------------------------------------------
+    
     while True:
         #====================數值更新====================
             #環境
@@ -584,7 +600,9 @@ def motion(win):
         dirL,dirR = dir(data['dir2'])
         dirA2.set(dirL)
         dirB2.set(dirR)
-            #Anchor
+        
+        #Anchor
+        
         Ax1.set(data['Ax'][0])
         Ax2.set(data['Ax'][1])
         Ax3.set(data['Ax'][2])
@@ -633,6 +651,8 @@ def motion(win):
             #畫當前路徑
         line_0 = cvs.create_line(deg_(data['P0'])[0],deg_(data['P0'])[1],deg_(data['P1'])[0],deg_(data['P1'])[1],fill='red', width=4)
         r=5  # radius
+        print(deg_(data['P0'])[0],deg_(data['P0'])[1])
+        
         oval_1=cvs.create_oval(deg_(data['P0'])[0]-r,deg_(data['P0'])[1]-r,deg_(data['P0'])[0]+r,deg_(data['P0'])[1]+r, fill='green', width=2)
         oval_2=cvs.create_oval(deg_(data['P1'])[0]-r,deg_(data['P1'])[1]-r,deg_(data['P1'])[0]+r,deg_(data['P1'])[1]+r, fill='green',width=2)
         #==============================
@@ -672,7 +692,7 @@ def motion(win):
         #=====畫方向線=====
         car = [float(data['x']),float(data['y'])]
         v1 = v1 = [car[0]+data['Vgo'][0],car[1]+data['Vgo'][1]]
-        line_5=cvs.create_line(deg_(car)[0], deg_(car)[1], deg_(v1)[0], deg_(v1)[1], fill='blue', width=2)
+        
         #line_5=cvs.create_line(car2[1][0], car2[1][1], proj_vec[0],proj_vec[1], fill='blue', width=2)
             
         cvs.update()
@@ -686,7 +706,7 @@ def motion(win):
         data=sort_data.getdata()  #讀取
         
         #刪除要重繪的東西
-        cvs.delete(line_0,line_1,line_2,line_3,line_4,line_5)  #刪除!!
+        cvs.delete(line_0,line_1,line_2,line_3,line_4)  #刪除!!
         cvs.delete(oval_1,oval_2)  #刪除!!
         
     #cvs.pack()
